@@ -18,9 +18,11 @@ public class ProjectsDataset {
      * @return
      */
     public String[] processInput(String input){
-        return input.split(",", -1);
-    }
+        input = input.replace(",", ""); // Remove commas
+        String[] words = input.trim().split("\\s+");
 
+        return words;
+    }
 
     /**
      * Return a specific row as an array
@@ -75,6 +77,9 @@ public class ProjectsDataset {
 
                 if(all_keywords){
                     matchingRowIndexes.add(rowIndex);
+                    //System.out.println(row[3] + " contains " + keywords[0] + " " + keywords[1]);
+                } else {
+                    //System.out.println(row[3] + " does not contain"  + keywords[0] + " " + keywords[1]);
                 }
 
                 rowIndex++;

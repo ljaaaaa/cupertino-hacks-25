@@ -40,6 +40,8 @@ public class ProjectComponentBox extends JComponent {
         // Hyperlink
         JButton linkButton = new JButton("<html><a href='#'>" + "Try it out!" + "</a></html>");
         linkButton.setForeground(Color.BLUE);
+        linkButton.setBackground(new Color(255, 145, 209));
+		linkButton.setFont(new Font("Parkinsans", Font.BOLD, 15));
         linkButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         linkButton.setBounds(50, 300, 200, 40);
 

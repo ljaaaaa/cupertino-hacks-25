@@ -1,7 +1,12 @@
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.List;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.MalformedURLException;
@@ -14,6 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.AbstractBorder;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 
@@ -67,6 +73,7 @@ public class Main implements ActionListener {
 		homePanel = new BackgroundPanel(LoadedImages.HOME_PAGE);
 		continueBtn = new JButton("Continue");
 			continueBtn.setBackground(new Color(255, 188, 0));
+			continueBtn.setFont(new Font("Parkinsans", Font.BOLD, 25));
 			continueBtn.setBounds(300, 700, 400, 80);
         	continueBtn.addActionListener(this);
 		homePanel.add(continueBtn);
@@ -75,6 +82,7 @@ public class Main implements ActionListener {
 		instructionsPanel = new BackgroundPanel(LoadedImages.INSTRUCTIONS_PAGE);
 		continueBtn2 = new JButton("Proceed");
 			continueBtn2.setBackground(new Color(255, 188, 0));
+			continueBtn2.setFont(new Font("Parkinsans", Font.BOLD, 25));
 			continueBtn2.setBounds(300, 700, 400, 80);
         	continueBtn2.addActionListener(this);
 		instructionsPanel.add(continueBtn2);
@@ -85,9 +93,12 @@ public class Main implements ActionListener {
 		//SUPPLIES PANEL
 		suppliesPanel = new BackgroundPanel(LoadedImages.SUPPLIES_LIST_PAGE);
 		suppliesField = new JTextField();
-			suppliesField.setBounds(20, 300, 960, 20);
+			suppliesField.setBounds(50, 300, 900, 50);
+			suppliesField.setFont(new Font("Parkinsans", Font.ITALIC, 25));
 			suppliesField.addActionListener(this);
 		backButton = new JButton("Back to Directions");
+			backButton.setBackground(new Color(255, 188, 0));
+			backButton.setFont(new Font("Parkinsans", Font.BOLD, 15));
 			backButton.setBounds(750, 815, 230, 40);
 			backButton.addActionListener(this);
 		suppliesPanel.add(suppliesField);
@@ -104,14 +115,18 @@ public class Main implements ActionListener {
 			resultsField.setBounds(320, 60, 660, 20);
 			resultsField.setEditable(false);
 		backButton2 = new JButton("Back to Directions");
-			backButton2.setBounds(750, 750, 230, 40);
+			backButton2.setBounds(750, 815, 230, 40);
+			backButton2.setBackground(new Color(255, 188, 0));
+			backButton2.setFont(new Font("Parkinsans", Font.BOLD, 15));
 			backButton2.addActionListener(this);
 		nextButton = new JButton("Next");
+			nextButton.setBackground(new Color(255, 188, 0));
+			nextButton.setFont(new Font("Parkinsans", Font.BOLD, 15));
 			nextButton.setBounds(750, 815, 230, 40); 
 			nextButton.addActionListener(this);		
 		resultsPanel.add(resultsField);
 		resultsPanel.add(backButton2);
-		resultsPanel.add(nextButton);
+		//resultsPanel.add(nextButton);
 
 		//NO RESULTS PAGE: QUITE SIMILAR
 		noResultsPanel = new BackgroundPanel(LoadedImages.RESULTS_PAGE);
@@ -120,6 +135,8 @@ public class Main implements ActionListener {
 			noResultsField.setEditable(false);
 		backButton3 = new JButton("Back to Directions");
 			backButton3.setBounds(750, 800, 230, 40);
+			backButton3.setBackground(new Color(255, 188, 0));
+			backButton3.setFont(new Font("Parkinsans", Font.BOLD, 15));
 			backButton3.addActionListener(this);
 		noResultsLabel = new JLabel("No Results");
 			noResultsLabel.setFont(new Font("Parkinsans", Font.BOLD, 25));
@@ -196,12 +213,19 @@ public class Main implements ActionListener {
 				noResultsField.setText(e.getActionCommand()); //Also this one's
 				generateResultsPage(e.getActionCommand()); //Just finds from dataset the info
 				//Panel is changed in ^ that method
+				//cards.show(mainPanel, "Results");
 			}
 		}
 	}
 
 	public void generateResultsPage(String inputText) {
-		
+		resultsPanel.removeAll();
+
+		//Add back in buttons/labels
+		resultsPanel.add(resultsField);
+		resultsPanel.add(backButton2);
+		//resultsPanel.add(nextButton);
+
 		//Indexes of working projects
 		ArrayList<Integer> indexes = projectData.findFromDataset(projectData.processInput(inputText));
 
@@ -233,8 +257,10 @@ public class Main implements ActionListener {
 		}
 		int i = resultsIndex;
 		try {
-			for (; i < resultsIndex + 3; i++) {
-				resultsPanel.add(boxes.get(i));
+			for (; i < 3; i++) {
+				resultsPanel.add(boxes.get(0));
+				resultsPanel.add(boxes.get(1));
+				resultsPanel.add(boxes.get(2));
 			}
 			cards.show(mainPanel, "Results");
 		}
@@ -245,7 +271,7 @@ public class Main implements ActionListener {
 			else {
 				JPanel blankPanel = new JPanel();
 				blankPanel.setOpaque(false);
-				for (; i < resultsIndex + 3; i++) {
+				for (; i < 3; i++) {
 					resultsPanel.add(blankPanel);
 				}
 				cards.show(mainPanel, "Results");
