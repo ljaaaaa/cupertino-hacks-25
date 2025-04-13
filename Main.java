@@ -27,6 +27,9 @@ public class Main implements ActionListener {
 	
 	private JTextField suppliesField; //Enter in craft "scraps"
 
+	//Our Dataset manager
+	private ProjectsDataset projectData;
+
 	//Only if we really have time to implement multiple methods of item selection
 	/*
 	private JButton useTextBtn;
@@ -55,8 +58,11 @@ public class Main implements ActionListener {
 		suppliesPanel = new BackgroundPanel(LoadedImages.SUPPLIES_LIST_PAGE);
 		suppliesField = new JTextField();
 			suppliesField.setBounds(20, 100, 900, 20);
-			//suppliesField.addActionListener(this);
+			suppliesField.addActionListener(this);
 		suppliesPanel.add(suppliesField);
+
+		//DATASET MANAGING
+		projectData = new ProjectsDataset();
 
 		//Make the CardLayout
 		cards = new CardLayout();
@@ -110,7 +116,7 @@ public class Main implements ActionListener {
 				cards.next(mainPanel);
 				break;
 			default: //In this case, we are using the Text Field
-				System.out.println(e.getActionCommand());
+				projectData.findFromDataset(projectData.processInput(e.getActionCommand()));
 			}
 		}
 	}

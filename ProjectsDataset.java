@@ -7,15 +7,9 @@ import java.util.List;
 public class ProjectsDataset {
     
     private final String FILENAME;
-
-    public static void main(String[] args){
-        new ProjectsDataset();
-    }
     
-    public ProjectsDataset(){
-        FILENAME = "/home/lilja/cupertino-hacks-25/custom-crafts-projects-database.csv";
-        String[] input = processInput("Yarn, crochet hook");
-        System.out.println(findFromDataset(input));
+    public ProjectsDataset() {
+        FILENAME = "custom-crafts-projects-database.csv";
     }
 
     /**
@@ -31,7 +25,7 @@ public class ProjectsDataset {
      * 
      * @param keywords the keywords to search the database for in an array, ex: "yarn" and "paper"
      */
-    private List<Integer> findFromDataset(String[] keywords){
+    public List<Integer> findFromDataset(String[] keywords){
         List<Integer> matchingRowIndexes = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(FILENAME))) {
