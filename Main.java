@@ -52,6 +52,8 @@ public class Main implements ActionListener {
 	//Our Dataset manager
 	private ProjectsDataset projectData;
 
+	private int resultsIndex; //The first index of the results
+	private int maxIndex; //The highest index you can reach: length - 1
 	//Only if we really have time to implement multiple methods of item selection
 	/*
 	private JButton useTextBtn;
@@ -93,6 +95,8 @@ public class Main implements ActionListener {
 
 		//DATASET MANAGING
 		projectData = new ProjectsDataset();
+		resultsIndex = 0;
+		maxIndex = 0;
 
 		//RESULTS PAGE
 		resultsPanel = new BackgroundPanel(LoadedImages.RESULTS_PAGE);
@@ -178,10 +182,16 @@ public class Main implements ActionListener {
 				cards.show(mainPanel, "Instructions");
 				break;
 			case "Next":
-				break;
+				resultsIndex += 3;
+				if (resultsIndex + 3 > maxIndex) {
+					resultsPanel.remove(nextButton);
+				}
+				generateResultsPage(resultsField.getText()); //This will hold the prompt
 			case "Prev.":
 				break;
 			default: //In this case, we are using the Text Field
+				resultsIndex = 0;
+				maxIndex = 0;
 				resultsField.setText(e.getActionCommand()); //Set the field's text
 				noResultsField.setText(e.getActionCommand()); //Also this one's
 				generateResultsPage(e.getActionCommand()); //Just finds from dataset the info
@@ -194,6 +204,8 @@ public class Main implements ActionListener {
 		
 		//Indexes of working projects
 		ArrayList<Integer> indexes = projectData.findFromDataset(projectData.processInput(inputText));
+
+		maxIndex = indexes.size() - 1; //This is just fact
 
 		ArrayList<ProjectComponentBox> boxes = new ArrayList<ProjectComponentBox>();
 
@@ -219,7 +231,7 @@ public class Main implements ActionListener {
 			boxes.get(n).setBounds(x, y, 300, 370);
 			x += 300 + 30;
 		}
-		int i = 0;
+		int i = resultsIndex;
 		try {
 			for (; i < 3; i++) {
 				resultsPanel.add(boxes.get(0));
