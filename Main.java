@@ -233,10 +233,8 @@ public class Main implements ActionListener {
 		}
 		int i = resultsIndex;
 		try {
-			for (; i < 3; i++) {
-				resultsPanel.add(boxes.get(0));
-				resultsPanel.add(boxes.get(1));
-				resultsPanel.add(boxes.get(2));
+			for (; i < resultsIndex + 3; i++) {
+				resultsPanel.add(boxes.get(i));
 			}
 			cards.show(mainPanel, "Results");
 		}
@@ -247,7 +245,7 @@ public class Main implements ActionListener {
 			else {
 				JPanel blankPanel = new JPanel();
 				blankPanel.setOpaque(false);
-				for (; i < 3; i++) {
+				for (; i < resultsIndex + 3; i++) {
 					resultsPanel.add(blankPanel);
 				}
 				cards.show(mainPanel, "Results");
