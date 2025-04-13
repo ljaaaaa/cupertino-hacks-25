@@ -3,30 +3,12 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 //This is a bit complicated, but essentially, it loads images and has field variables for them
 public class LoadedImages {
-    public Image buttonImage;
-    public Image logo;
-    public Image homePage;
-
-    public void loadImages() {
-        buttonImage = getImage("startButton.png");
-        logo = getImage("logo.png");
-        homePage = getImage("home_page.png");
-    }
-
-    public Image getImage(String imageName) {
-        Image imageOut = null;
-        try {
-            File file = new File("images/" + imageName); //TODO: make it relative path
-            imageOut = ImageIO.read(file);
-        }
-        catch (IOException e) {
-            System.err.println("Could not load image: " + imageName);
-            e.printStackTrace();
-        }
-
-        return imageOut;
-    }
+    public static Image LOGO = new ImageIcon("images/logo.png").getImage();
+    public static Image HOME_PAGE = new ImageIcon("images/home_page.png").getImage();
+    public static Image INSTRUCTIONS_PAGE = new ImageIcon("images/instructions_page.png").getImage();
+    public static Image SUPPLIES_LIST_PAGE = new ImageIcon("images/supplies_page.png").getImage();
 }
