@@ -11,4 +11,6 @@ public class LoadedImages {
     public static Image HOME_PAGE = new ImageIcon("images/home_page.png").getImage();
     public static Image INSTRUCTIONS_PAGE = new ImageIcon("images/instructions_page.png").getImage();
     public static Image ENTER_INSTRUCTIONS_PAGE = new ImageIcon("images/enter_instructions_page.png").getImage();
+
+    public static Image RESULTS_PAGE = new ImageIcon("images/results_page.png").getImage();
 }
