@@ -14,14 +14,24 @@ public class ProjectsDataset {
     
     public ProjectsDataset(){
         FILENAME = "/home/lilja/cupertino-hacks-25/custom-crafts-projects-database.csv";
-        System.out.println(findFromDataset(new String[] {"Yarn"} ));
+        String[] input = processInput("Yarn, crochet hook");
+        System.out.println(findFromDataset(input));
+    }
+
+    /**
+     * Process input from user
+     * @param input string of inputs, likely items separated by commas
+     * @return
+     */
+    public String[] processInput(String input){
+        return input.split(",", -1);
     }
 
     /**
      * 
      * @param keywords the keywords to search the database for in an array, ex: "yarn" and "paper"
      */
-    private List<Integer> findFromDataset(String[] keyword){
+    private List<Integer> findFromDataset(String[] keywords){
         List<Integer> matchingRowIndexes = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(FILENAME))) {
@@ -29,9 +39,25 @@ public class ProjectsDataset {
             int rowIndex = 0;
 
             while ((line = br.readLine()) != null) {
-                String[] columns = line.split(",", -1); // -1 keeps empty columns
+                String[] row = line.split(",", -1); // -1 keeps empty columns
 
-                if (columns.length >= 3 && columns[3].toLowerCase().contains(keyword[0].toLowerCase())) {
+                boolean all_keywords = true;
+                boolean some_keywords = false;
+
+                System.out.println(row[0] + " | " + row[1] + " | " + row[2] + " | " + row[3]);
+
+                for (String keyword : keywords){
+                    if (row.length >= 3 && row[3].toLowerCase().contains(keyword.toLowerCase())) {
+                        //matchingRowIndexes.add(rowIndex);
+                        some_keywords = true;
+                    
+                    } else {
+                        all_keywords = false;
+                        //System.out.println(columns[3] + "does not contain" + keyword);
+                    }
+                }
+
+                if(all_keywords){
                     matchingRowIndexes.add(rowIndex);
                 }
 
