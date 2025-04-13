@@ -1,13 +1,13 @@
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.BorderLayout;
 import java.awt.CardLayout;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.JButton;
 
 public class Main implements ActionListener {
@@ -26,13 +26,22 @@ public class Main implements ActionListener {
 	private BackgroundPanel resultsPanel;
 
 	private BackgroundPanel resultsPage;
+	private BackgroundPanel suppliesPanel;
 
 	private JButton continueBtn;
 	private JButton continueBtn2;
 	
+	private JTextField suppliesField; //Enter in craft "scraps"
+
+	//Our Dataset manager
+	private ProjectsDataset projectData;
+
+	//Only if we really have time to implement multiple methods of item selection
+	/*
 	private JButton useTextBtn;
 	private JButton useFileBtn;
 	private JButton useCameraBtn;
+	*/
 
 	private JLabel resultInput;
 
@@ -58,10 +67,15 @@ public class Main implements ActionListener {
 		
 		//ENTER METHOD PANEL
 		enterMethodPanel = new BackgroundPanel(LoadedImages.ENTER_INSTRUCTIONS_PAGE);
+		//SUPPLIES PANEL
+		suppliesPanel = new BackgroundPanel(LoadedImages.SUPPLIES_LIST_PAGE);
+		suppliesField = new JTextField();
+			suppliesField.setBounds(20, 100, 900, 20);
+			suppliesField.addActionListener(this);
+		suppliesPanel.add(suppliesField);
 
-		useTextBtn = new JButton();
-		useFileBtn = new JButton();
-		useCameraBtn = new JButton();
+		//DATASET MANAGING
+		projectData = new ProjectsDataset();
 
 		//RESULTS PAGE
 		resultsPanel = new BackgroundPanel(null);
@@ -92,7 +106,7 @@ public class Main implements ActionListener {
 		//Add panels to the CardLayout
 		mainPanel.add("Home", homePanel);
 		mainPanel.add("Instructions", instructionsPanel);
-		mainPanel.add(enterMethodPanel);
+		mainPanel.add(suppliesPanel);
 		
 		cards.show(mainPanel, "Home");
 
@@ -131,6 +145,12 @@ public class Main implements ActionListener {
 				//In this case, just go to the next panel, the instructions panel
 				cards.next(mainPanel);
 				break;
+			case "Proceed":
+				//Again, just go to the next panel
+				cards.next(mainPanel);
+				break;
+			default: //In this case, we are using the Text Field
+				projectData.findFromDataset(projectData.processInput(e.getActionCommand()));
 			}
 		}
 	}
