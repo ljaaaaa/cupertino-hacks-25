@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.List;
 import java.awt.event.ActionEvent;
@@ -30,6 +31,7 @@ public class Main implements ActionListener {
 	private BackgroundPanel enterMethodPanel;
 
 	private BackgroundPanel resultsPanel;
+	private BackgroundPanel noResultsPanel; //when there are no results
 	private BackgroundPanel suppliesPanel;
 
 	private JButton continueBtn;
@@ -37,10 +39,16 @@ public class Main implements ActionListener {
 
 	private JButton backButton;
 	private JButton backButton2; //Same button can't be used on multiple panels
-	
+	private JButton backButton3; //For the noResults page
+
+	private JButton nextButton; //Go to the next options
+
 	private JTextField suppliesField; //Enter in craft "scraps"
 	private JTextField resultsField; //Show our "scraps"
+	private JTextField noResultsField; //Also shows our "scraps"
 
+	private JLabel noResultsLabel;
+	
 	//Our Dataset manager
 	private ProjectsDataset projectData;
 
@@ -92,10 +100,30 @@ public class Main implements ActionListener {
 			resultsField.setBounds(320, 60, 660, 20);
 			resultsField.setEditable(false);
 		backButton2 = new JButton("Back to Directions");
-			backButton2.setBounds(750, 815, 230, 40);
+			backButton2.setBounds(750, 750, 230, 40);
 			backButton2.addActionListener(this);
+		nextButton = new JButton("Next");
+			nextButton.setBounds(750, 815, 230, 40); 
+			nextButton.addActionListener(this);		
 		resultsPanel.add(resultsField);
 		resultsPanel.add(backButton2);
+		resultsPanel.add(nextButton);
+
+		//NO RESULTS PAGE: QUITE SIMILAR
+		noResultsPanel = new BackgroundPanel(LoadedImages.RESULTS_PAGE);
+		noResultsField = new JTextField();
+			noResultsField.setBounds(320, 60, 660, 20);
+			noResultsField.setEditable(false);
+		backButton3 = new JButton("Back to Directions");
+			backButton3.setBounds(750, 800, 230, 40);
+			backButton3.addActionListener(this);
+		noResultsLabel = new JLabel("No Results");
+			noResultsLabel.setFont(new Font("Parkinsans", Font.BOLD, 25));
+			noResultsLabel.setBounds(300, 400, 400, 75);
+			noResultsLabel.setForeground(new Color(212, 83, 108));
+		noResultsPanel.add(noResultsField);
+		noResultsPanel.add(backButton3);
+		noResultsPanel.add(noResultsLabel);
 
 		//Make the CardLayout
 		cards = new CardLayout();
@@ -109,7 +137,8 @@ public class Main implements ActionListener {
 		mainPanel.add("Instructions", instructionsPanel);
 		mainPanel.add("Supplies", suppliesPanel);
 		mainPanel.add("Results", resultsPanel);
-		
+		mainPanel.add("No Results", noResultsPanel);
+
 		cards.show(mainPanel, "Home");
 
 		setUpFrame();
@@ -148,10 +177,15 @@ public class Main implements ActionListener {
 				//Show this panel
 				cards.show(mainPanel, "Instructions");
 				break;
+			case "Next":
+				break;
+			case "Prev.":
+				break;
 			default: //In this case, we are using the Text Field
 				resultsField.setText(e.getActionCommand()); //Set the field's text
+				noResultsField.setText(e.getActionCommand()); //Also this one's
 				generateResultsPage(e.getActionCommand()); //Just finds from dataset the info
-				cards.next(mainPanel);
+				//Panel is changed in ^ that method
 			}
 		}
 	}
@@ -166,7 +200,6 @@ public class Main implements ActionListener {
 		int x = 20;
 		int y = 150;
 
-		//TODO... max 3 but what if less than 3 results
 		for (int n = 0; n < indexes.size(); n++){
 			int index = indexes.get(n);
 			String[] stuff = projectData.getRow(index);
@@ -193,12 +226,19 @@ public class Main implements ActionListener {
 				resultsPanel.add(boxes.get(1));
 				resultsPanel.add(boxes.get(2));
 			}
+			cards.show(mainPanel, "Results");
 		}
 		catch (IndexOutOfBoundsException e) { //Ran out of indeces
-			JPanel blankPanel = new JPanel();
-			blankPanel.setOpaque(false);
-			for (; i < 3; i++) {
-				resultsPanel.add(blankPanel);
+			if (i == 0) {
+				cards.show(mainPanel, "No Results");
+			}
+			else {
+				JPanel blankPanel = new JPanel();
+				blankPanel.setOpaque(false);
+				for (; i < 3; i++) {
+					resultsPanel.add(blankPanel);
+				}
+				cards.show(mainPanel, "Results");
 			}
 		}
 	}
