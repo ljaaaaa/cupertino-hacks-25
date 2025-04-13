@@ -35,6 +35,7 @@ public class Main implements ActionListener {
 	private JButton continueBtn2;
 	
 	private JTextField suppliesField; //Enter in craft "scraps"
+	private JTextField resultsField; //Show our "scraps"
 
 	//Our Dataset manager
 	private ProjectsDataset projectData;
@@ -47,6 +48,7 @@ public class Main implements ActionListener {
 	*/
 
 	public Main() {
+
 		//HOME PANEL
 		homePanel = new BackgroundPanel(LoadedImages.HOME_PAGE);
 		continueBtn = new JButton("Continue");
@@ -65,10 +67,11 @@ public class Main implements ActionListener {
 		
 		//ENTER METHOD PANEL
 		enterMethodPanel = new BackgroundPanel(LoadedImages.ENTER_INSTRUCTIONS_PAGE);
+
 		//SUPPLIES PANEL
 		suppliesPanel = new BackgroundPanel(LoadedImages.SUPPLIES_LIST_PAGE);
 		suppliesField = new JTextField();
-			suppliesField.setBounds(20, 100, 900, 20);
+			suppliesField.setBounds(20, 300, 960, 20);
 			suppliesField.addActionListener(this);
 		suppliesPanel.add(suppliesField);
 
@@ -77,6 +80,10 @@ public class Main implements ActionListener {
 
 		//RESULTS PAGE
 		resultsPanel = new BackgroundPanel(LoadedImages.RESULTS_PAGE);
+		resultsField = new JTextField();
+			resultsField.setBounds(20, 0, 960, 20);
+			resultsField.setEditable(false);
+		resultsPanel.add(resultsField);
 
 		ImageIcon icon = new ImageIcon("images/logo_with_bg.png"); // adjust size as needed
 
@@ -100,7 +107,7 @@ public class Main implements ActionListener {
 
 	public void setUpFrame(){
 		JFrame f = new JFrame("Scraps to Crafts");
-		//mpl = new MousePositionListener(Constants.PRINTING);
+		//f.addMouseListener(new MousePositionListener(Constants.PRINTING));
 
 		f.setIconImage(new ImageIcon("images/logo_with_bg.png").getImage());
 		f.setSize(Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT);
