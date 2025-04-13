@@ -7,9 +7,13 @@ import javax.imageio.ImageIO;
 //This is a bit complicated, but essentially, it loads images and has field variables for them
 public class LoadedImages {
     public Image buttonImage;
+    public Image logo;
+    public Image homePage;
 
     public void loadImages() {
         buttonImage = getImage("startButton.png");
+        logo = getImage("logo.png");
+        homePage = getImage("home_page.png");
     }
 
     public Image getImage(String imageName) {
