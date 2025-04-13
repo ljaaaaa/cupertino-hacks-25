@@ -22,7 +22,7 @@ public class Main {
 		JFrame f = new JFrame("Scraps to Crafts");
 		mpl = new MousePositionListener(Constants.PRINTING);
 
-		f.setIconImage(new ImageIcon("images/image.png").getImage());
+		f.setIconImage(new ImageIcon("images/logo_with_bg.png").getImage());
 		f.setSize(Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT);
 
 		f.setFocusable(true);
