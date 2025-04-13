@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,6 +34,9 @@ public class Main implements ActionListener {
 
 	private JButton continueBtn;
 	private JButton continueBtn2;
+
+	private JButton backButton;
+	private JButton backButton2; //Same button can't be used on multiple panels
 	
 	private JTextField suppliesField; //Enter in craft "scraps"
 	private JTextField resultsField; //Show our "scraps"
@@ -73,7 +77,11 @@ public class Main implements ActionListener {
 		suppliesField = new JTextField();
 			suppliesField.setBounds(20, 300, 960, 20);
 			suppliesField.addActionListener(this);
+		backButton = new JButton("Back to Directions");
+			backButton.setBounds(750, 815, 230, 40);
+			backButton.addActionListener(this);
 		suppliesPanel.add(suppliesField);
+		suppliesPanel.add(backButton);
 
 		//DATASET MANAGING
 		projectData = new ProjectsDataset();
@@ -81,11 +89,13 @@ public class Main implements ActionListener {
 		//RESULTS PAGE
 		resultsPanel = new BackgroundPanel(LoadedImages.RESULTS_PAGE);
 		resultsField = new JTextField();
-			resultsField.setBounds(20, 0, 960, 20);
+			resultsField.setBounds(320, 60, 660, 20);
 			resultsField.setEditable(false);
+		backButton2 = new JButton("Back to Directions");
+			backButton2.setBounds(750, 815, 230, 40);
+			backButton2.addActionListener(this);
 		resultsPanel.add(resultsField);
-
-		ImageIcon icon = new ImageIcon("images/logo_with_bg.png"); // adjust size as needed
+		resultsPanel.add(backButton2);
 
 		//Make the CardLayout
 		cards = new CardLayout();
@@ -107,7 +117,7 @@ public class Main implements ActionListener {
 
 	public void setUpFrame(){
 		JFrame f = new JFrame("Scraps to Crafts");
-		//f.addMouseListener(new MousePositionListener(Constants.PRINTING));
+		f.addMouseListener(new MousePositionListener(Constants.PRINTING));
 
 		f.setIconImage(new ImageIcon("images/logo_with_bg.png").getImage());
 		f.setSize(Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT);
@@ -115,10 +125,6 @@ public class Main implements ActionListener {
 		f.setFocusable(true);
 
 		f.add(mainPanel);
-		//generateResultsPage("yarn");
-		//f.add(resultsPage);
-
-		//f.addMouseListener(mpl);
 
 		f.setLocationRelativeTo(null);
 		f.setResizable(false);
@@ -138,16 +144,19 @@ public class Main implements ActionListener {
 				//Again, just go to the next panel
 				cards.next(mainPanel);
 				break;
+			case "Back to Directions":
+				//Show this panel
+				cards.show(mainPanel, "Instructions");
+				break;
 			default: //In this case, we are using the Text Field
+				resultsField.setText(e.getActionCommand()); //Set the field's text
 				generateResultsPage(e.getActionCommand()); //Just finds from dataset the info
 				cards.next(mainPanel);
-				break;
 			}
 		}
 	}
 
 	public void generateResultsPage(String inputText) {
-		resultsPanel.removeAll();
 		
 		//Indexes of working projects
 		ArrayList<Integer> indexes = projectData.findFromDataset(projectData.processInput(inputText));
@@ -171,16 +180,26 @@ public class Main implements ActionListener {
 				e.printStackTrace();
 			}
 
-			ImageIcon image = new ImageIcon(url);
+			Image image = new ImageIcon(url).getImage();
 
-			boxes.add(new ProjectComponentBox(stuff[0], image, stuff[1]));
+			boxes.add(new ProjectComponentBox(stuff[0], new ImageIcon(image.getScaledInstance(200, 200, Image.SCALE_DEFAULT)), stuff[1]));
 			boxes.get(n).setBounds(x, y, 300, 370);
 			x += 300 + 30;
 		}
-
-		resultsPanel.add(boxes.get(0));
-		resultsPanel.add(boxes.get(1));
-		resultsPanel.add(boxes.get(2));
-		System.out.println("added boxes??");
+		int i = 0;
+		try {
+			for (; i < 3; i++) {
+				resultsPanel.add(boxes.get(0));
+				resultsPanel.add(boxes.get(1));
+				resultsPanel.add(boxes.get(2));
+			}
+		}
+		catch (IndexOutOfBoundsException e) { //Ran out of indeces
+			JPanel blankPanel = new JPanel();
+			blankPanel.setOpaque(false);
+			for (; i < 3; i++) {
+				resultsPanel.add(blankPanel);
+			}
+		}
 	}
 }
