@@ -1,27 +1,32 @@
-import java.awt.Graphics;
-
-import javax.swing.JLabel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class StartPage extends JPanel{
-    JLabel welcomeLabel;
+    JButton continueButton;
+    LoadedImages images;
+    ImageIcon icon; //The icon for the button
     
-    public StartPage()
+    public StartPage(LoadedImages imagesIn)
     {
         setLayout(null);
-    
-        //Define our components
-        welcomeLabel = new JLabel("Welcome to:");
-    
-        //Position our components
-        welcomeLabel.setBounds(0, 0, 300, 50);
 
-        //Add our components
-        add(welcomeLabel);
-    }
+        images = imagesIn;
 
-    public void paintComponent(Graphics g)
-    {
-        super.paintComponent(g);
+        //Do all image related stuff: catch image loading related errors
+        try {
+            //Make our Icon
+            icon = new ImageIcon(images.buttonImage);
+        
+            //Make our button
+            continueButton = new JButton(icon);
+        }
+        catch(NullPointerException err) { //Image didn't load
+            continueButton = new JButton();
+        }
+
+        continueButton.setBounds(50, 50, 100, 50);
+
+        add(continueButton);
     }
 }

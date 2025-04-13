@@ -4,10 +4,16 @@ import javax.swing.JFrame;
 public class Main {
 	private StartPage panel;
 	private MousePositionListener mpl; //Listens for the mouse position: used only during developement.
-
+	private LoadedImages images;
 	public Main(){
-		panel = new StartPage();
 
+		//Prepare the images
+		images = new LoadedImages();
+		images.loadImages();
+
+		//Make our start page
+		panel = new StartPage(images);
+		images = new LoadedImages(); //Load all our images before everything
 		setUpFrame();
 	}
 
