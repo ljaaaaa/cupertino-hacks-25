@@ -1,42 +1,32 @@
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.Timer;
 
 public class Main {
-	MyKeyListener keyListener;
-	MyMouseListener mouseListener;
-	MyActionListener actionListener;
-	Timer timer;
-	MyPanel panel;
+	private StartPage panel;
+	private MousePositionListener mpl; //Listens for the mouse position: used only during developement.
 
 	public Main(){
-		keyListener = new MyKeyListener();
-		mouseListener = new MyMouseListener();
-		actionListener = new MyActionListener();
-		timer = new Timer(Constants.DELAY, actionListener);
-		panel = new MyPanel();
+		panel = new StartPage();
 
 		setUpFrame();
 	}
 
 	public void setUpFrame(){
 		JFrame f = new JFrame("Swing Template");
+		mpl = new MousePositionListener(Constants.PRINTING);
+
 		f.setIconImage(new ImageIcon("images/image.png").getImage());
 		f.setSize(Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT);
-		f.setLayout(null);
 
-		f.addMouseListener(mouseListener);
-
-		f.addKeyListener(keyListener);
 		f.setFocusable(true);
 
 		f.add(panel);
+
+		f.addMouseListener(mpl);
 
 		f.setLocationRelativeTo(null);
 		f.setResizable(false);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setVisible(true);
-
-		timer.start();
 	}
 }
