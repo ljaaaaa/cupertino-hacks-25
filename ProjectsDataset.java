@@ -38,8 +38,6 @@ public class ProjectsDataset {
                 boolean all_keywords = true;
                 boolean some_keywords = false;
 
-                System.out.println(row[0] + " | " + row[1] + " | " + row[2] + " | " + row[3]);
-
                 for (String keyword : keywords){
                     if (row.length >= 3 && row[3].toLowerCase().contains(keyword.toLowerCase())) {
                         //matchingRowIndexes.add(rowIndex);

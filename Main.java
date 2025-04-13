@@ -105,7 +105,6 @@ public class Main implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand() != null) {
-			System.out.println(e.getActionCommand());
 			switch (e.getActionCommand()) {
 			case "Continue":
 				//In this case, just go to the next panel, the instructions panel
@@ -116,7 +115,7 @@ public class Main implements ActionListener {
 				cards.next(mainPanel);
 				break;
 			default: //In this case, we are using the Text Field
-				projectData.findFromDataset(projectData.processInput(e.getActionCommand()));
+				System.out.println(projectData.findFromDataset(projectData.processInput(e.getActionCommand()))); //Just finds from dataset the info
 			}
 		}
 	}
