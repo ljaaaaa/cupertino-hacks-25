@@ -1,3 +1,3 @@
-# swing-template
+#Cupertino Hacks Project 2025
 
-Game template for Java
+Our project for cupertino's 2025 hackathon.
