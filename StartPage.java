@@ -36,7 +36,7 @@ public class StartPage extends JPanel{
         //Set bounds of the button
         continueButton.setBounds(300, 700, 400, 100);
 
-        continueButton.addActionListener(new ContinueListener(cards, screen));
+        //continueButton.addActionListener(new ContinueListener(cards, screen));
 
         add(continueButton);
     }

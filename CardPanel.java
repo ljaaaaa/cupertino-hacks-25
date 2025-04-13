@@ -15,7 +15,7 @@ public class CardPanel extends JPanel{
         startPage = new StartPage(images, cards, this);
 
         add(startPage);
-
+        
         /*
         images = imagesIn; //Get access to all loaded images: pass them to contained panels
         
