@@ -1,6 +1,10 @@
 import java.awt.Color;
+import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.awt.CardLayout;
 
 import javax.swing.ImageIcon;
@@ -9,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 
 public class Main implements ActionListener {
 	private MousePositionListener mpl; //Listens for the mouse position: used only during developement.
@@ -24,8 +29,6 @@ public class Main implements ActionListener {
 	private BackgroundPanel enterMethodPanel;
 
 	private BackgroundPanel resultsPanel;
-
-	private BackgroundPanel resultsPage;
 	private BackgroundPanel suppliesPanel;
 
 	private JButton continueBtn;
@@ -42,11 +45,6 @@ public class Main implements ActionListener {
 	private JButton useFileBtn;
 	private JButton useCameraBtn;
 	*/
-
-	private JLabel resultInput;
-
-	private JLabel result1Name;
-	private ImageIcon result1Image;
 
 	public Main() {
 		//HOME PANEL
@@ -78,23 +76,9 @@ public class Main implements ActionListener {
 		projectData = new ProjectsDataset();
 
 		//RESULTS PAGE
-		resultsPanel = new BackgroundPanel(null);
-		resultInput = new JLabel("Pencil, paper");
+		resultsPanel = new BackgroundPanel(LoadedImages.RESULTS_PAGE);
 
 		ImageIcon icon = new ImageIcon("images/logo_with_bg.png"); // adjust size as needed
-
-        ProjectComponentBox box = new ProjectComponentBox("My Title", icon, "Click here", "https://www.example.com");
-        box.setBounds(30, 150, 300, 370); // Position (x=50, y=50)
-
-		ProjectComponentBox box2 = new ProjectComponentBox("My Title", icon, "Click here", "https://www.example.com");
-        box2.setBounds(340, 150, 300, 370); // Position (x=50, y=50)
-
-		ProjectComponentBox box3 = new ProjectComponentBox("My Title", icon, "Click here", "https://www.example.com");
-        box3.setBounds(660, 150, 300, 370); // Position (x=50, y=50)
-
-		resultsPanel.add(box);
-		resultsPanel.add(box2);
-		resultsPanel.add(box3);
 
 		//Make the CardLayout
 		cards = new CardLayout();
@@ -106,7 +90,8 @@ public class Main implements ActionListener {
 		//Add panels to the CardLayout
 		mainPanel.add("Home", homePanel);
 		mainPanel.add("Instructions", instructionsPanel);
-		mainPanel.add(suppliesPanel);
+		mainPanel.add("Supplies", suppliesPanel);
+		mainPanel.add("Results", resultsPanel);
 		
 		cards.show(mainPanel, "Home");
 
@@ -122,13 +107,11 @@ public class Main implements ActionListener {
 
 		f.setFocusable(true);
 
-		//f.add(mainPanel);
-		//StartPage startPage = new StartPage(images, cards, this);
-		//f.add(startPage);
+		f.add(mainPanel);
+		//generateResultsPage("yarn");
+		//f.add(resultsPage);
 
 		//f.addMouseListener(mpl);
-
-        f.add(resultsPanel);
 
 		f.setLocationRelativeTo(null);
 		f.setResizable(false);
@@ -139,7 +122,6 @@ public class Main implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand() != null) {
-			System.out.println(e.getActionCommand());
 			switch (e.getActionCommand()) {
 			case "Continue":
 				//In this case, just go to the next panel, the instructions panel
@@ -150,8 +132,48 @@ public class Main implements ActionListener {
 				cards.next(mainPanel);
 				break;
 			default: //In this case, we are using the Text Field
-				projectData.findFromDataset(projectData.processInput(e.getActionCommand()));
+				generateResultsPage(e.getActionCommand()); //Just finds from dataset the info
+				cards.next(mainPanel);
+				break;
 			}
 		}
+	}
+
+	public void generateResultsPage(String inputText) {
+		resultsPanel.removeAll();
+		
+		//Indexes of working projects
+		ArrayList<Integer> indexes = projectData.findFromDataset(projectData.processInput(inputText));
+
+		ArrayList<ProjectComponentBox> boxes = new ArrayList<ProjectComponentBox>();
+
+		int x = 20;
+		int y = 150;
+
+		//TODO... max 3 but what if less than 3 results
+		for (int n = 0; n < indexes.size(); n++){
+			int index = indexes.get(n);
+			String[] stuff = projectData.getRow(index);
+
+			//Generate an ImageIcon from a link to an online image
+			URL url = null;
+			try {
+				url = new URL(stuff[2]);
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			ImageIcon image = new ImageIcon(url);
+
+			boxes.add(new ProjectComponentBox(stuff[0], image, stuff[1]));
+			boxes.get(n).setBounds(x, y, 300, 370);
+			x += 300 + 30;
+		}
+
+		resultsPanel.add(boxes.get(0));
+		resultsPanel.add(boxes.get(1));
+		resultsPanel.add(boxes.get(2));
+		System.out.println("added boxes??");
 	}
 }

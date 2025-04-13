@@ -9,5 +9,5 @@ public class LoadedImages {
     public static Image ENTER_INSTRUCTIONS_PAGE = new ImageIcon("images/enter_instructions_page.png").getImage();
 
     public static Image RESULTS_PAGE = new ImageIcon("images/results_page.png").getImage();
-    public static Image SUPPLIES_LIST_PAGE = new ImageIcon("images/supplies_page.png").getImage();
+    public static Image SUPPLIES_LIST_PAGE = new ImageIcon("images/enter_page.png").getImage();
 }

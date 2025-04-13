@@ -17,7 +17,7 @@ public class ProjectComponentBox extends JComponent {
  
     private JPanel panel;
 
-    public ProjectComponentBox(String titleText, ImageIcon image, String linkText, String linkUrl) {
+    public ProjectComponentBox(String titleText, ImageIcon image, String linkUrl) {
         setLayout(null);
         setSize(300, 400);
 

@@ -21,12 +21,38 @@ public class ProjectsDataset {
         return input.split(",", -1);
     }
 
+
+    /**
+     * Return a specific row as an array
+     * @param index the index of the file
+     * @return thre row as an array
+     */
+    public String[] getRow(int index){
+        String[] row = new String[4];
+        
+        try (BufferedReader br = new BufferedReader(new FileReader(FILENAME))) {
+
+            String line = "";
+
+            for (int x = 0; x <= index; x++){
+                line = br.readLine();
+            }
+            
+            row = line.split(",", -1);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } 
+
+        return row;
+    }
+
     /**
      * 
      * @param keywords the keywords to search the database for in an array, ex: "yarn" and "paper"
      */
-    public List<Integer> findFromDataset(String[] keywords){
-        List<Integer> matchingRowIndexes = new ArrayList<>();
+    public ArrayList<Integer> findFromDataset(String[] keywords){
+        ArrayList<Integer> matchingRowIndexes = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(FILENAME))) {
             String line;
