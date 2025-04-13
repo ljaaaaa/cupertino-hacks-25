@@ -2,9 +2,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 public class Main {
-	private StartPage panel;
+	private CardPanel panel;
 	private MousePositionListener mpl; //Listens for the mouse position: used only during developement.
 	private LoadedImages images;
+
 	public Main(){
 
 		//Prepare the images
@@ -12,13 +13,13 @@ public class Main {
 		images.loadImages();
 
 		//Make our start page
-		panel = new StartPage(images);
+		panel = new CardPanel(images);
 		images = new LoadedImages(); //Load all our images before everything
 		setUpFrame();
 	}
 
 	public void setUpFrame(){
-		JFrame f = new JFrame("Swing Template");
+		JFrame f = new JFrame("Scraps to Crafts");
 		mpl = new MousePositionListener(Constants.PRINTING);
 
 		f.setIconImage(new ImageIcon("images/logo_with_bg.png").getImage());
